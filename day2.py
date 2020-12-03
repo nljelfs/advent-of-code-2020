@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# Day 3 of https://adventofcode.com/2020
+# Day 2 of https://adventofcode.com/2020
 
 import argparse
 import re
