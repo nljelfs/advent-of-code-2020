@@ -6,7 +6,6 @@ import argparse
 import itertools
 import logging
 from typing import List
-import sys
 
 
 def is_tree(lines: List[str], line: int, char: int) -> bool:
@@ -23,8 +22,12 @@ def navigate(lines: List[str], line_step: int, char_step: int) -> int:
     through the map that "lines" represents.
     """
 
-    positions = list(zip(range(line_step, len(lines), line_step),
-                         itertools.count(char_step, char_step)))
+    positions = list(
+        zip(
+            range(line_step, len(lines), line_step),
+            itertools.count(char_step, char_step),
+        )
+    )
     trees = 0
     for line, char in positions:
         if is_tree(lines, line, char):
@@ -32,17 +35,30 @@ def navigate(lines: List[str], line_step: int, char_step: int) -> int:
             trees += 1
         else:
             logging.debug("No tree at (%u, %u)", line, char)
-    logging.info("(%u, %u): encountered %u trees in %u steps",
-                 line_step, char_step, trees, len(positions))
+    logging.info(
+        "(%u, %u): encountered %u trees in %u steps",
+        line_step,
+        char_step,
+        trees,
+        len(positions),
+    )
     return trees
 
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("-l", "--log-level", choices=("DEBUG", "INFO"),
-                   default="INFO", help="log level")
-    p.add_argument("file", type=argparse.FileType(),
-                   help="input file (password policy + password per line)")
+    p.add_argument(
+        "-l",
+        "--log-level",
+        choices=("DEBUG", "INFO"),
+        default="INFO",
+        help="log level",
+    )
+    p.add_argument(
+        "file",
+        type=argparse.FileType(),
+        help="input file (password policy + password per line)",
+    )
     args = p.parse_args()
 
     logging.basicConfig(level=args.log_level)
